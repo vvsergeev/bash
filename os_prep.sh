@@ -13,7 +13,6 @@ purl=proxy.domain.com
 port=3128
 
 MY_PROXY_URL="$username:$(echo $PASS_B64 | base64 --decode)@$purl:$port"
-
 HTTP_PROXY=$MY_PROXY_URL
 HTTPS_PROXY=$MY_PROXY_URL
 FTP_PROXY=$MY_PROXY_URL
@@ -55,12 +54,39 @@ FOE
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
 #Install and remove soft (rpm based OS)
-yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate
+yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff
 
 #configure login banner with ascii graphics (use to convert text to image http://patorjk.com/software/taag)
 cat << EOF >> /etc/motd
 
 EOF
+
+#some nice functions thanks to Vasily Laur
+# classic archive extractor
+extract () {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2) tar xvjf $1   ;;
+            *.tar.gz)  tar xvzf $1   ;;
+            *.bz2)     bunzip2 $1    ;;
+            *.rar)     unrar x $1    ;;
+            *.gz)      gunzip $1     ;;
+            *.tar)     tar xvf $1    ;;
+            *.tbz2)    tar xvjf $1   ;;
+            *.tgz)     tar xvzf $1   ;;
+            *.zip)     unzip $1      ;;
+            *.Z)       uncompress $1 ;;
+            *.7z)      7z x $1       ;;
+            *)         echo "'$1' cannot be extracted via $0" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# aliases
+alias grep='grep --colour=auto'
+which colordiff >/dev/null && alias diff='colordiff'
 
 #configure vim
 printf "\ncolorscheme torte" >> /etc/vimrc
