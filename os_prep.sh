@@ -6,19 +6,20 @@ ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 #timedatectl set-timezone 'Europe/Moscow'
 
 # configure proxy
+cat << EOF >> /etc/proxy.conf
 username=
 # Primitive hiding password (it is not secure). Insert base64 code here
 PASS_B64=
 purl=proxy.domain.com
 port=3128
 
-MY_PROXY_URL="$username:$(echo $PASS_B64 | base64 --decode)@$purl:$port"
-HTTP_PROXY=$MY_PROXY_URL
-HTTPS_PROXY=$MY_PROXY_URL
-FTP_PROXY=$MY_PROXY_URL
-http_proxy=$MY_PROXY_URL
-https_proxy=$MY_PROXY_URL
-ftp_proxy=$MY_PROXY_URL
+MY_PROXY_URL="\$username:\$(echo \$PASS_B64 | base64 --decode)@\$purl:$port"
+HTTP_PROXY=\$MY_PROXY_URL
+HTTPS_PROXY=\$MY_PROXY_URL
+FTP_PROXY=\$MY_PROXY_URL
+http_proxy=\$MY_PROXY_URL
+https_proxy=\$MY_PROXY_URL
+ftp_proxy=\$MY_PROXY_URL
 
 export HTTP_PROXY HTTPS_PROXY FTP_PROXY http_proxy https_proxy ftp_proxy
 EOF
@@ -86,6 +87,14 @@ EOF
 
 # aliases
 alias grep='grep --colour=auto'
+alias cp='cp -r'
+alias scp='scp -r'
+alias rm='rm -r'
+alias mkdir='mkdir -p'
+alias ls='ls -F --color=auto'
+alias la='ls -A --color=auto'
+alias ll='ls -l --color=auto -h'
+alias lla='ll -A --color=auto -h'
 which colordiff >/dev/null && alias diff='colordiff'
 
 # configure vim
