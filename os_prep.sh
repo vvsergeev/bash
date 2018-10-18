@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#set time and timezone to Moscow time
+# set time and timezone to Moscow time
 unlink /etc/localtime
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 #timedatectl set-timezone 'Europe/Moscow'
 
-#configure proxy
+# configure proxy
 username=
-#Primitive hiding password (it is not secure). Insert base64 code here
+# Primitive hiding password (it is not secure). Insert base64 code here
 PASS_B64=
 purl=proxy.domain.com
 port=3128
@@ -24,7 +24,7 @@ export HTTP_PROXY HTTPS_PROXY FTP_PROXY http_proxy https_proxy ftp_proxy
 EOF
 source /etc/proxy.conf
 
-#Configure bashrc in /etc/profile
+# Configure bashrc in /etc/profile
 
 cat << EOF >> /etc/profile
 #custom config starts here
@@ -38,9 +38,32 @@ if [[ \$UID == 0 ]]
     else
     PS1="\[\033[00m\][\[\033[1;32m\]\$REGION\[\033[00m\]|\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;34m\]\w\[\033[00m\]]\[\033[1;34m\]$ \$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]F\") \[\033[00m\]"
 fi
+
+# some nice functions thanks to Vasily Laur
+# classic archive extractor
+extract () {
+    if [ -f \$1 ] ; then
+        case \$1 in
+            *.tar.bz2) tar xvjf \$1   ;;
+            *.tar.gz)  tar xvzf \$1   ;;
+            *.bz2)     bunzip2 \$1    ;;
+            *.rar)     unrar x \$1    ;;
+            *.gz)      gunzip \$1     ;;
+            *.tar)     tar xvf \$1    ;;
+            *.tbz2)    tar xvjf \$1   ;;
+            *.tgz)     tar xvzf \$1   ;;
+            *.zip)     unzip \$1      ;;
+            *.Z)       uncompress \$1 ;;
+            *.7z)      7z x \$1       ;;
+            *)         echo "'\$1' cannot be extracted via $0" ;;
+        esac
+    else
+        echo "'\$1' is not a valid file"
+    fi
+}
 EOF
 
-#configure ssh
+# configure ssh
 cat >> /etc/ssh/ssh_config << FOE
 StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
@@ -50,43 +73,20 @@ cat >> /etc/ssh/sshd_config << FOE
 UseDNS no
 FOE
 
-#configure sudo users without password (not secure)
+# configure sudo users without password (not secure)
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
-#Install and remove soft (rpm based OS)
+# Install and remove soft (rpm based OS)
 yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff
 
-#configure login banner with ascii graphics (use to convert text to image http://patorjk.com/software/taag)
+# configure login banner with ascii graphics (use to convert text to image http://patorjk.com/software/taag)
 cat << EOF >> /etc/motd
 
 EOF
-
-#some nice functions thanks to Vasily Laur
-# classic archive extractor
-extract () {
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2) tar xvjf $1   ;;
-            *.tar.gz)  tar xvzf $1   ;;
-            *.bz2)     bunzip2 $1    ;;
-            *.rar)     unrar x $1    ;;
-            *.gz)      gunzip $1     ;;
-            *.tar)     tar xvf $1    ;;
-            *.tbz2)    tar xvjf $1   ;;
-            *.tgz)     tar xvzf $1   ;;
-            *.zip)     unzip $1      ;;
-            *.Z)       uncompress $1 ;;
-            *.7z)      7z x $1       ;;
-            *)         echo "'$1' cannot be extracted via $0" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
 
 # aliases
 alias grep='grep --colour=auto'
 which colordiff >/dev/null && alias diff='colordiff'
 
-#configure vim
+# configure vim
 printf "\ncolorscheme torte" >> /etc/vimrc
