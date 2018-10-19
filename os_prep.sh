@@ -40,6 +40,18 @@ if [[ \$UID == 0 ]]
     PS1="\[\033[00m\][\[\033[1;32m\]\$REGION\[\033[00m\]|\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;34m\]\w\[\033[00m\]]\[\033[1;34m\]$ \$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]F\") \[\033[00m\]"
 fi
 
+# aliases
+alias grep='grep --colour=auto'
+alias cp='cp -r'
+alias scp='scp -r'
+alias rm='rm -r'
+alias mkdir='mkdir -p'
+alias ls='ls -F --color=auto'
+alias la='ls -A --color=auto'
+alias ll='ls -l --color=auto -h'
+alias lla='ll -A --color=auto -h'
+which colordiff >/dev/null && alias diff='colordiff'
+
 # some nice functions thanks to Vasily Laur
 # classic archive extractor
 extract () {
@@ -84,18 +96,6 @@ yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocat
 cat << EOF >> /etc/motd
 
 EOF
-
-# aliases
-alias grep='grep --colour=auto'
-alias cp='cp -r'
-alias scp='scp -r'
-alias rm='rm -r'
-alias mkdir='mkdir -p'
-alias ls='ls -F --color=auto'
-alias la='ls -A --color=auto'
-alias ll='ls -l --color=auto -h'
-alias lla='ll -A --color=auto -h'
-which colordiff >/dev/null && alias diff='colordiff'
 
 # configure vim
 printf "\ncolorscheme torte" >> /etc/vimrc
