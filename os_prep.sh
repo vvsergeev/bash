@@ -90,7 +90,7 @@ FOE
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
 # Install and remove soft (rpm based OS)
-yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff
+yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff bash-completion
 
 # configure login banner with ascii graphics (use to convert text to image http://patorjk.com/software/taag)
 cat << EOF >> /etc/motd
