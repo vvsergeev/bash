@@ -1,4 +1,5 @@
 #!/bin/bash
+# Post install Script for Centos like OS
 
 # set time and timezone to Moscow time
 unlink /etc/localtime
@@ -10,10 +11,10 @@ cat << EOF >> /etc/proxy.conf
 username=
 # Primitive hiding password (it is not secure). Insert base64 code here
 PASS_B64=
-purl=proxy.domain.com
-port=3128
+PURL=proxy.domain.com
+PPORT=3128
 
-MY_PROXY_URL="\$username:\$(echo \$PASS_B64 | base64 --decode)@\$purl:$port"
+MY_PROXY_URL="\$username:\$(echo \$PASS_B64 | base64 --decode)@\$PURL:$PPORT"
 HTTP_PROXY=\$MY_PROXY_URL
 HTTPS_PROXY=\$MY_PROXY_URL
 FTP_PROXY=\$MY_PROXY_URL
