@@ -36,9 +36,9 @@ export REGION
 
 if [[ \$UID == 0 ]]
     then
-    PS1="\[\033[00m\][\[\033[1;32m\]$REGION\[\033[00m\]|\[\033[1;31m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;31m\]\w\[\033[00m\]]\[\033[1;31m\]#\$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]F\") \[\033[00m\]"
+    PS1="\[\033[00m\][\[\033[1;32m\]\$REGION\[\033[00m\]|\[\033[1;31m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;31m\]\w\[\033[00m\]]\[\033[1;31m\]# \[\033[00m\]"
     else
-    PS1="\[\033[00m\][\[\033[1;32m\]\$REGION\[\033[00m\]|\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;34m\]\w\[\033[00m\]]\[\033[1;34m\]$ \$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]F\") \[\033[00m\]"
+    PS1="\[\033[00m\][\[\033[1;32m\]\$REGION\[\033[00m\]|\[\033[1;34m\]\u\[\033[1;37m\]@\[\033[1;33m\]\h\[\033[1;37m\]:\[\033[1;34m\]\w\[\033[00m\]]\[\033[1;34m\]$ \[\033[00m\]"
 fi
 
 # aliases
@@ -91,7 +91,8 @@ FOE
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
 # Install and remove soft (rpm based OS)
-yum install -y epel-release tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff bash-completion
+yum install -y epel-release
+yum update; yum install -y tcpdump telnet net-tools bind-utils vim pwgen mlocate colordiff bash-completion
 
 # configure login banner with ascii graphics (use to convert text to image http://patorjk.com/software/taag)
 cat << EOF >> /etc/motd
